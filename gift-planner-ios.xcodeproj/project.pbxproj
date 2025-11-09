@@ -18,6 +18,21 @@
 		AC3CEAEF2EC0B52900E403A9 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAEE2EC0B52900E403A9 /* AuthService.swift */; };
 		AC3CEAF12EC0B54A00E403A9 /* EventsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAF02EC0B54A00E403A9 /* EventsListView.swift */; };
 		AC3CEAF32EC0B56500E403A9 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAF22EC0B56500E403A9 /* SignUpView.swift */; };
+		AC3CEB0A2EC0B7F000E403A9 /* GiftSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAF52EC0B7F000E403A9 /* GiftSuggestion.swift */; };
+		AC3CEB0B2EC0B7F000E403A9 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB002EC0B7F000E403A9 /* EventDetailView.swift */; };
+		AC3CEB0C2EC0B7F000E403A9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAFC2EC0B7F000E403A9 /* LoginView.swift */; };
+		AC3CEB0D2EC0B7F000E403A9 /* InviteUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB022EC0B7F000E403A9 /* InviteUserView.swift */; };
+		AC3CEB0E2EC0B7F000E403A9 /* CreateEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAFF2EC0B7F000E403A9 /* CreateEventView.swift */; };
+		AC3CEB0F2EC0B7F000E403A9 /* CreateWishlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB062EC0B7F000E403A9 /* CreateWishlistView.swift */; };
+		AC3CEB102EC0B7F000E403A9 /* AddGiftSuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB042EC0B7F000E403A9 /* AddGiftSuggestionView.swift */; };
+		AC3CEB112EC0B7F000E403A9 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAF92EC0B7F000E403A9 /* AuthService.swift */; };
+		AC3CEB122EC0B7F000E403A9 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAFD2EC0B7F000E403A9 /* SignUpView.swift */; };
+		AC3CEB132EC0B7F000E403A9 /* WishlistDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB072EC0B7F000E403A9 /* WishlistDetailView.swift */; };
+		AC3CEB142EC0B7F000E403A9 /* Wishlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAF72EC0B7F000E403A9 /* Wishlist.swift */; };
+		AC3CEB152EC0B7F000E403A9 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAFA2EC0B7F000E403A9 /* FirestoreService.swift */; };
+		AC3CEB162EC0B7F000E403A9 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAF42EC0B7F000E403A9 /* Event.swift */; };
+		AC3CEB172EC0B7F000E403A9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAF62EC0B7F000E403A9 /* User.swift */; };
+		AC3CEB182EC0B7F000E403A9 /* EventsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB012EC0B7F000E403A9 /* EventsListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +46,21 @@
 		AC3CEAEE2EC0B52900E403A9 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		AC3CEAF02EC0B54A00E403A9 /* EventsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListView.swift; sourceTree = "<group>"; };
 		AC3CEAF22EC0B56500E403A9 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		AC3CEAF42EC0B7F000E403A9 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		AC3CEAF52EC0B7F000E403A9 /* GiftSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftSuggestion.swift; sourceTree = "<group>"; };
+		AC3CEAF62EC0B7F000E403A9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		AC3CEAF72EC0B7F000E403A9 /* Wishlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wishlist.swift; sourceTree = "<group>"; };
+		AC3CEAF92EC0B7F000E403A9 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		AC3CEAFA2EC0B7F000E403A9 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
+		AC3CEAFC2EC0B7F000E403A9 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		AC3CEAFD2EC0B7F000E403A9 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		AC3CEAFF2EC0B7F000E403A9 /* CreateEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventView.swift; sourceTree = "<group>"; };
+		AC3CEB002EC0B7F000E403A9 /* EventDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
+		AC3CEB012EC0B7F000E403A9 /* EventsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListView.swift; sourceTree = "<group>"; };
+		AC3CEB022EC0B7F000E403A9 /* InviteUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteUserView.swift; sourceTree = "<group>"; };
+		AC3CEB042EC0B7F000E403A9 /* AddGiftSuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGiftSuggestionView.swift; sourceTree = "<group>"; };
+		AC3CEB062EC0B7F000E403A9 /* CreateWishlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWishlistView.swift; sourceTree = "<group>"; };
+		AC3CEB072EC0B7F000E403A9 /* WishlistDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +96,9 @@
 		A1000008294A1A1A00000009 /* gift-planner-ios */ = {
 			isa = PBXGroup;
 			children = (
+				AC3CEAF82EC0B7F000E403A9 /* Models */,
+				AC3CEAFB2EC0B7F000E403A9 /* Services */,
+				AC3CEB092EC0B7F000E403A9 /* Views */,
 				AC3CEAEC2EC0B43300E403A9 /* GoogleService-Info.plist */,
 				A1000000294A1A1A00000001 /* gift_planner_iosApp.swift */,
 				A1000001294A1A1A00000002 /* ContentView.swift */,
@@ -85,6 +118,74 @@
 				A1000005294A1A1A00000006 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		AC3CEAF82EC0B7F000E403A9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AC3CEAF42EC0B7F000E403A9 /* Event.swift */,
+				AC3CEAF52EC0B7F000E403A9 /* GiftSuggestion.swift */,
+				AC3CEAF62EC0B7F000E403A9 /* User.swift */,
+				AC3CEAF72EC0B7F000E403A9 /* Wishlist.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AC3CEAFB2EC0B7F000E403A9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				AC3CEAF92EC0B7F000E403A9 /* AuthService.swift */,
+				AC3CEAFA2EC0B7F000E403A9 /* FirestoreService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		AC3CEAFE2EC0B7F000E403A9 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				AC3CEAFC2EC0B7F000E403A9 /* LoginView.swift */,
+				AC3CEAFD2EC0B7F000E403A9 /* SignUpView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		AC3CEB032EC0B7F000E403A9 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				AC3CEAFF2EC0B7F000E403A9 /* CreateEventView.swift */,
+				AC3CEB002EC0B7F000E403A9 /* EventDetailView.swift */,
+				AC3CEB012EC0B7F000E403A9 /* EventsListView.swift */,
+				AC3CEB022EC0B7F000E403A9 /* InviteUserView.swift */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		AC3CEB052EC0B7F000E403A9 /* Gifts */ = {
+			isa = PBXGroup;
+			children = (
+				AC3CEB042EC0B7F000E403A9 /* AddGiftSuggestionView.swift */,
+			);
+			path = Gifts;
+			sourceTree = "<group>";
+		};
+		AC3CEB082EC0B7F000E403A9 /* Wishlists */ = {
+			isa = PBXGroup;
+			children = (
+				AC3CEB062EC0B7F000E403A9 /* CreateWishlistView.swift */,
+				AC3CEB072EC0B7F000E403A9 /* WishlistDetailView.swift */,
+			);
+			path = Wishlists;
+			sourceTree = "<group>";
+		};
+		AC3CEB092EC0B7F000E403A9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AC3CEAFE2EC0B7F000E403A9 /* Auth */,
+				AC3CEB032EC0B7F000E403A9 /* Events */,
+				AC3CEB052EC0B7F000E403A9 /* Gifts */,
+				AC3CEB082EC0B7F000E403A9 /* Wishlists */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,11 +257,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC3CEAEF2EC0B52900E403A9 /* AuthService.swift in Sources */,
-				AC3CEAF32EC0B56500E403A9 /* SignUpView.swift in Sources */,
+				AC3CEB0A2EC0B7F000E403A9 /* GiftSuggestion.swift in Sources */,
+				AC3CEB0B2EC0B7F000E403A9 /* EventDetailView.swift in Sources */,
+				AC3CEB0C2EC0B7F000E403A9 /* LoginView.swift in Sources */,
+				AC3CEB0D2EC0B7F000E403A9 /* InviteUserView.swift in Sources */,
+				AC3CEB0E2EC0B7F000E403A9 /* CreateEventView.swift in Sources */,
+				AC3CEB0F2EC0B7F000E403A9 /* CreateWishlistView.swift in Sources */,
+				AC3CEB102EC0B7F000E403A9 /* AddGiftSuggestionView.swift in Sources */,
+				AC3CEB112EC0B7F000E403A9 /* AuthService.swift in Sources */,
+				AC3CEB122EC0B7F000E403A9 /* SignUpView.swift in Sources */,
+				AC3CEB132EC0B7F000E403A9 /* WishlistDetailView.swift in Sources */,
+				AC3CEB142EC0B7F000E403A9 /* Wishlist.swift in Sources */,
+				AC3CEB152EC0B7F000E403A9 /* FirestoreService.swift in Sources */,
+				AC3CEB162EC0B7F000E403A9 /* Event.swift in Sources */,
+				AC3CEB172EC0B7F000E403A9 /* User.swift in Sources */,
+				AC3CEB182EC0B7F000E403A9 /* EventsListView.swift in Sources */,
 				A1000002294A1A1A00000002 /* ContentView.swift in Sources */,
 				A1000001294A1A1A00000001 /* gift_planner_iosApp.swift in Sources */,
-				AC3CEAF12EC0B54A00E403A9 /* EventsListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

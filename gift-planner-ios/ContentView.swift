@@ -3,7 +3,6 @@ import SwiftUI
 import FirebaseAuth
 import FirebaseCore
 
-// If the error persists, ensure LoginView.swift is included in the app target's membership.
 struct ContentView: View {
     @EnvironmentObject var authService: AuthService
     @State private var showingLogin = false
