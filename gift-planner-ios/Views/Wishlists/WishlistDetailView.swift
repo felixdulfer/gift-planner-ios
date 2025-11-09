@@ -10,6 +10,8 @@ struct WishlistDetailView: View {
     @State private var errorMessage = ""
     @State private var showingAddGift = false
     @State private var showingEditWishlist = false
+    @State private var selectedSuggestion: GiftSuggestion?
+    @State private var showingEditSuggestion = false
     @State private var toastMessage: String?
     
     init(wishlist: Wishlist, event: Event) {
@@ -48,7 +50,11 @@ struct WishlistDetailView: View {
                             suggestion: suggestion,
                             canEdit: canEdit,
                             onToggleFavorite: { toggleFavorite(suggestion) },
-                            onTogglePurchased: { togglePurchased(suggestion) }
+                            onTogglePurchased: { togglePurchased(suggestion) },
+                            onTap: {
+                                selectedSuggestion = suggestion
+                                showingEditSuggestion = true
+                            }
                         )
                     }
                     .onDelete(perform: deleteSuggestions)
@@ -115,6 +121,11 @@ struct WishlistDetailView: View {
                 }
             }
         }
+        .onChange(of: showingEditSuggestion) { oldValue, newValue in
+            if oldValue == true && newValue == false {
+                selectedSuggestion = nil
+            }
+        }
         .sheet(isPresented: $showingEditWishlist) {
             EditWishlistView(
                 wishlist: currentWishlist,
@@ -127,6 +138,24 @@ struct WishlistDetailView: View {
                     }
                 }
             )
+        }
+        .sheet(isPresented: $showingEditSuggestion) {
+            if let suggestion = selectedSuggestion {
+                EditGiftSuggestionView(
+                    suggestion: suggestion,
+                    canEdit: canEdit,
+                    isPresented: $showingEditSuggestion,
+                    onSuggestionUpdated: { updatedSuggestion in
+                        toastMessage = "Gift \"\(updatedSuggestion.title)\" updated"
+                        selectedSuggestion = updatedSuggestion
+                        Task {
+                            await loadGiftSuggestions()
+                        }
+                    }
+                )
+            } else {
+                EmptyView()
+            }
         }
         .task {
             await loadGiftSuggestions()
@@ -256,6 +285,7 @@ struct GiftSuggestionRow: View {
     let canEdit: Bool
     let onToggleFavorite: () -> Void
     let onTogglePurchased: () -> Void
+    let onTap: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -290,28 +320,36 @@ struct GiftSuggestionRow: View {
             }
             
             if canEdit {
-                HStack {
+                HStack(spacing: 16) {
                     Button(action: onToggleFavorite) {
-                        Label(
-                            suggestion.isFavorited ? "Unfavorite" : "Favorite",
-                            systemImage: suggestion.isFavorited ? "heart.fill" : "heart"
-                        )
-                        .font(.caption)
+                        HStack(spacing: 4) {
+                            Image(systemName: suggestion.isFavorited ? "heart.fill" : "heart")
+                                .font(.caption)
+                            Text(suggestion.isFavorited ? "Unfavorite" : "Favorite")
+                                .font(.caption)
+                        }
+                        .foregroundColor(.blue)
                     }
                     .buttonStyle(.borderless)
                     
                     Button(action: onTogglePurchased) {
-                        Label(
-                            suggestion.isPurchased ? "Mark as Not Purchased" : "Mark as Purchased",
-                            systemImage: suggestion.isPurchased ? "checkmark.circle.fill" : "circle"
-                        )
-                        .font(.caption)
+                        HStack(spacing: 4) {
+                            Image(systemName: suggestion.isPurchased ? "checkmark.circle.fill" : "circle")
+                                .font(.caption)
+                            Text(suggestion.isPurchased ? "Mark as Not Purchased" : "Mark as Purchased")
+                                .font(.caption)
+                        }
+                        .foregroundColor(.blue)
                     }
                     .buttonStyle(.borderless)
                 }
             }
         }
         .padding(.vertical, 4)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onTap()
+        }
     }
 }
 

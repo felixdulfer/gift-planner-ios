@@ -35,6 +35,7 @@
 		AC3CEB1F2EC1255D00E403A9 /* EditEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB1E2EC1255D00E403A9 /* EditEventView.swift */; };
 		AC3CEB212EC1255D00E403A9 /* EventMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB202EC1255D00E403A9 /* EventMembersView.swift */; };
 		AC3CEB222EC1255E00E403A9 /* EditWishlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB232EC1255E00E403A9 /* EditWishlistView.swift */; };
+		AC3CEB242EC1255E00E403A9 /* EditGiftSuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB232EC1255F00E403A9 /* EditGiftSuggestionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		AC3CEB1E2EC1255D00E403A9 /* EditEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventView.swift; sourceTree = "<group>"; };
 		AC3CEB202EC1255D00E403A9 /* EventMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMembersView.swift; sourceTree = "<group>"; };
 		AC3CEB232EC1255E00E403A9 /* EditWishlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWishlistView.swift; sourceTree = "<group>"; };
+		AC3CEB232EC1255F00E403A9 /* EditGiftSuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGiftSuggestionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				AC3CEB042EC0B7F000E403A9 /* AddGiftSuggestionView.swift */,
+				AC3CEB232EC1255F00E403A9 /* EditGiftSuggestionView.swift */,
 			);
 			path = Gifts;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 				AC3CEB1F2EC1255D00E403A9 /* EditEventView.swift in Sources */,
 				AC3CEB212EC1255D00E403A9 /* EventMembersView.swift in Sources */,
 				AC3CEB222EC1255E00E403A9 /* EditWishlistView.swift in Sources */,
+				AC3CEB242EC1255E00E403A9 /* EditGiftSuggestionView.swift in Sources */,
 				AC3CEB112EC0B7F000E403A9 /* AuthService.swift in Sources */,
 				AC3CEB122EC0B7F000E403A9 /* SignUpView.swift in Sources */,
 				AC3CEB132EC0B7F000E403A9 /* WishlistDetailView.swift in Sources */,
