@@ -67,7 +67,11 @@ struct WishlistDetailView: View {
             if canEdit {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
-                        Button(role: .destructive, action: deleteWishlist) {
+                        Button(role: .destructive, action: {
+                            Task {
+                                await deleteWishlist()
+                            }
+                        }) {
                             Label("Delete Wishlist", systemImage: "trash")
                         }
                     } label: {
@@ -178,19 +182,17 @@ struct WishlistDetailView: View {
         }
     }
     
-    private func deleteWishlist() {
+    private func deleteWishlist() async {
         guard let wishlistId = wishlist.id else { return }
         
-        Task {
-            do {
-                try await FirestoreService.shared.deleteWishlist(wishlistId: wishlistId)
-                await MainActor.run {
-                    // Navigation will be handled automatically
-                }
-            } catch {
-                await MainActor.run {
-                    errorMessage = error.localizedDescription
-                }
+        do {
+            try await FirestoreService.shared.deleteWishlist(wishlistId: wishlistId)
+            await MainActor.run {
+                // Navigation will be handled automatically
+            }
+        } catch {
+            await MainActor.run {
+                errorMessage = error.localizedDescription
             }
         }
     }

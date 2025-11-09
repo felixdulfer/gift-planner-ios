@@ -30,6 +30,8 @@
 		AC3CEB162EC0B7F000E403A9 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAF42EC0B7F000E403A9 /* Event.swift */; };
 		AC3CEB172EC0B7F000E403A9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAF62EC0B7F000E403A9 /* User.swift */; };
 		AC3CEB182EC0B7F000E403A9 /* EventsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB012EC0B7F000E403A9 /* EventsListView.swift */; };
+		AC3CEB1C2EC1255C00E403A9 /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB1A2EC1255C00E403A9 /* ToastModifier.swift */; };
+		AC3CEB1D2EC1255C00E403A9 /* HapticFeedbackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB192EC1255C00E403A9 /* HapticFeedbackHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		AC3CEB042EC0B7F000E403A9 /* AddGiftSuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGiftSuggestionView.swift; sourceTree = "<group>"; };
 		AC3CEB062EC0B7F000E403A9 /* CreateWishlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWishlistView.swift; sourceTree = "<group>"; };
 		AC3CEB072EC0B7F000E403A9 /* WishlistDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistDetailView.swift; sourceTree = "<group>"; };
+		AC3CEB192EC1255C00E403A9 /* HapticFeedbackHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedbackHelper.swift; sourceTree = "<group>"; };
+		AC3CEB1A2EC1255C00E403A9 /* ToastModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,7 @@
 		A1000008294A1A1A00000009 /* gift-planner-ios */ = {
 			isa = PBXGroup;
 			children = (
+				AC3CEB1B2EC1255C00E403A9 /* Utilities */,
 				AC3CEAF82EC0B7F000E403A9 /* Models */,
 				AC3CEAFB2EC0B7F000E403A9 /* Services */,
 				AC3CEB092EC0B7F000E403A9 /* Views */,
@@ -185,6 +190,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		AC3CEB1B2EC1255C00E403A9 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				AC3CEB192EC1255C00E403A9 /* HapticFeedbackHelper.swift */,
+				AC3CEB1A2EC1255C00E403A9 /* ToastModifier.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -261,6 +275,8 @@
 				AC3CEB0E2EC0B7F000E403A9 /* CreateEventView.swift in Sources */,
 				AC3CEB0F2EC0B7F000E403A9 /* CreateWishlistView.swift in Sources */,
 				AC3CEB102EC0B7F000E403A9 /* AddGiftSuggestionView.swift in Sources */,
+				AC3CEB1C2EC1255C00E403A9 /* ToastModifier.swift in Sources */,
+				AC3CEB1D2EC1255C00E403A9 /* HapticFeedbackHelper.swift in Sources */,
 				AC3CEB112EC0B7F000E403A9 /* AuthService.swift in Sources */,
 				AC3CEB122EC0B7F000E403A9 /* SignUpView.swift in Sources */,
 				AC3CEB132EC0B7F000E403A9 /* WishlistDetailView.swift in Sources */,

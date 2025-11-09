@@ -8,6 +8,7 @@ struct EventsListView: View {
     @State private var showingCreateEvent = false
     @State private var showingInviteUser = false
     @State private var selectedEvent: Event?
+    @State private var toastMessage: String?
     
     var body: some View {
         NavigationView {
@@ -34,7 +35,15 @@ struct EventsListView: View {
                 } else {
                     List {
                         ForEach(events) { event in
-                            NavigationLink(destination: EventDetailView(event: event)) {
+                            NavigationLink(destination: EventDetailView(
+                                event: event,
+                                onEventDeleted: { eventName in
+                                    toastMessage = "Event \"\(eventName)\" deleted"
+                                    Task {
+                                        await loadEvents()
+                                    }
+                                }
+                            )) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(event.name)
                                         .font(.headline)
@@ -75,6 +84,7 @@ struct EventsListView: View {
             .refreshable {
                 await loadEvents()
             }
+            .toast(message: $toastMessage)
         }
     }
     

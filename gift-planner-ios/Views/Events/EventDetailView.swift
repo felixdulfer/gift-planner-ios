@@ -2,12 +2,19 @@ import SwiftUI
 
 struct EventDetailView: View {
     @StateObject private var authService = AuthService()
+    @Environment(\.dismiss) private var dismiss
     let event: Event
+    let onEventDeleted: ((String) -> Void)?
     @State private var wishlists: [Wishlist] = []
     @State private var isLoading = false
     @State private var errorMessage = ""
     @State private var showingCreateWishlist = false
     @State private var showingInviteUser = false
+    
+    init(event: Event, onEventDeleted: ((String) -> Void)? = nil) {
+        self.event = event
+        self.onEventDeleted = onEventDeleted
+    }
     
     var canEdit: Bool {
         guard let userId = authService.userId else { return false }
@@ -77,7 +84,11 @@ struct EventDetailView: View {
             if canEdit {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
-                        Button(role: .destructive, action: deleteEvent) {
+                        Button(role: .destructive, action: {
+                            Task {
+                                await deleteEvent()
+                            }
+                        }) {
                             Label("Delete Event", systemImage: "trash")
                         }
                     } label: {
@@ -140,19 +151,20 @@ struct EventDetailView: View {
         }
     }
     
-    private func deleteEvent() {
+    private func deleteEvent() async {
         guard let eventId = event.id else { return }
+        let eventName = event.name
         
-        Task {
-            do {
-                try await FirestoreService.shared.deleteEvent(eventId: eventId)
-                await MainActor.run {
-                    // Navigation will be handled automatically
-                }
-            } catch {
-                await MainActor.run {
-                    errorMessage = error.localizedDescription
-                }
+        do {
+            try await FirestoreService.shared.deleteEvent(eventId: eventId)
+            await MainActor.run {
+                // Call the callback before dismissing
+                onEventDeleted?(eventName)
+                dismiss()
+            }
+        } catch {
+            await MainActor.run {
+                errorMessage = error.localizedDescription
             }
         }
     }
