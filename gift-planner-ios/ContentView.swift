@@ -66,20 +66,26 @@ struct ContentView: View {
     }
     
     private var authenticatedView: some View {
-        let content: AnyView
+        NavigationStack {
+            selectedTabView
+        }
+        .safeAreaInset(edge: .bottom) {
+            FloatingTabBar(selectedTab: $selectedTab)
+                .padding(.horizontal, 24)
+                .padding(.bottom, 16)
+        }
+    }
+    
+    @ViewBuilder
+    private var selectedTabView: some View {
         switch selectedTab {
         case .events:
-            content = AnyView(EventsListView().environmentObject(authService))
+            EventsListView()
+                .environmentObject(authService)
         case .account:
-            content = AnyView(AccountView().environmentObject(authService))
+            AccountView()
+                .environmentObject(authService)
         }
-        
-        return content
-            .safeAreaInset(edge: .bottom) {
-                FloatingTabBar(selectedTab: $selectedTab)
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 16)
-            }
     }
 }
 

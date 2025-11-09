@@ -321,49 +321,55 @@ struct GiftSuggestionRow: View {
     let onTap: () -> Void
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text(suggestion.title)
-                    .font(.headline)
-                    .strikethrough(suggestion.isPurchased)
-                
-                Spacer()
-                
-                if suggestion.isFavorited {
-                    Image(systemName: "heart.fill")
-                        .foregroundColor(.red)
-                }
-                
-                if suggestion.isPurchased {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(.green)
-                }
-            }
-            
-            if let description = suggestion.description, !description.isEmpty {
-                Text(description)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-            }
-            
-            if let link = suggestion.link, !link.isEmpty {
-                if let url = URL(string: link) {
-                    OpenGraphPreviewImage(link: url)
-                        .padding(.top, 4)
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .top, spacing: 12) {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Text(suggestion.title)
+                            .font(.headline)
+                            .strikethrough(suggestion.isPurchased)
+                        
+                        Spacer()
+                        
+                        if suggestion.isFavorited {
+                            Image(systemName: "heart.fill")
+                                .foregroundColor(.red)
+                        }
+                        
+                        if suggestion.isPurchased {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.green)
+                        }
+                    }
                     
-                    Link(destination: url) {
-                        Text(link)
+                    if let description = suggestion.description, !description.isEmpty {
+                        Text(description)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    if let linkURL = normalizedLinkURL {
+                        Link(destination: linkURL) {
+                            Text(linkDisplayText)
+                                .font(.caption)
+                                .foregroundColor(.blue)
+                                .lineLimit(1)
+                                .truncationMode(.tail)
+                        }
+                    } else if let trimmedLink = trimmedLink, !trimmedLink.isEmpty {
+                        Text(trimmedLink)
                             .font(.caption)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.secondary)
                             .lineLimit(1)
                             .truncationMode(.tail)
                     }
-                } else {
-                    Text(link)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .lineLimit(1)
-                        .truncationMode(.tail)
+                }
+                
+                Spacer(minLength: 0)
+                
+                if let previewURL = normalizedLinkURL {
+                    OpenGraphPreviewImage(link: previewURL, style: .square(84))
+                        .frame(width: 84, height: 84)
                 }
             }
             
@@ -404,6 +410,35 @@ struct GiftSuggestionRow: View {
         }
     }
     
+    private var trimmedLink: String? {
+        guard let raw = suggestion.link?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !raw.isEmpty else { return nil }
+        return raw
+    }
+    
+    private var normalizedLinkURL: URL? {
+        guard let raw = trimmedLink else { return nil }
+        
+        if let url = URL(string: raw), url.scheme != nil {
+            return url
+        }
+        
+        return URL(string: "https://\(raw)")
+    }
+    
+    private var linkDisplayText: String {
+        guard let raw = trimmedLink else { return "" }
+        
+        if raw.hasPrefix("https://") {
+            return String(raw.dropFirst("https://".count))
+        }
+        
+        if raw.hasPrefix("http://") {
+            return String(raw.dropFirst("http://".count))
+        }
+        
+        return raw
+    }
 }
 
 #Preview {

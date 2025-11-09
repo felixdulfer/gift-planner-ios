@@ -11,94 +11,92 @@ struct EventsListView: View {
     @State private var toastMessage: String?
     
     var body: some View {
-        NavigationView {
-            Group {
-                if isLoading {
-                    ProgressView("Loading events...")
-                } else if events.isEmpty {
-                    VStack(spacing: 20) {
-                        Image(systemName: "calendar.badge.plus")
-                            .font(.system(size: 60))
-                            .foregroundColor(.gray)
-                        Text("No events yet")
-                            .font(.title2)
-                            .foregroundColor(.gray)
-                        Text("Create your first event to get started")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Button("Create Event") {
-                            showingCreateEvent = true
-                        }
-                        .buttonStyle(.borderedProminent)
+        Group {
+            if isLoading {
+                ProgressView("Loading events...")
+            } else if events.isEmpty {
+                VStack(spacing: 20) {
+                    Image(systemName: "calendar.badge.plus")
+                        .font(.system(size: 60))
+                        .foregroundColor(.gray)
+                    Text("No events yet")
+                        .font(.title2)
+                        .foregroundColor(.gray)
+                    Text("Create your first event to get started")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                    Button("Create Event") {
+                        showingCreateEvent = true
                     }
-                    .padding()
-                } else {
-                    List {
-                        ForEach(events) { event in
-                            NavigationLink(destination: EventDetailView(
-                                event: event,
-                                onEventDeleted: { eventName in
-                                    toastMessage = "Event \"\(eventName)\" deleted"
-                                    Task {
-                                        await loadEvents()
-                                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding()
+            } else {
+                List {
+                    ForEach(events) { event in
+                        NavigationLink(destination: EventDetailView(
+                            event: event,
+                            onEventDeleted: { eventName in
+                                toastMessage = "Event \"\(eventName)\" deleted"
+                                Task {
+                                    await loadEvents()
                                 }
-                            )
-                            .environmentObject(authService)) {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(event.name)
-                                        .font(.headline)
-                                    if let eventDate = event.eventDate {
-                                        Text(eventDate, style: .date)
-                                            .font(.caption)
-                                            .foregroundColor(.secondary)
-                                    }
-                                    Text("\(event.memberIds.count) member\(event.memberIds.count == 1 ? "" : "s")")
+                            }
+                        )
+                        .environmentObject(authService)) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(event.name)
+                                    .font(.headline)
+                                if let eventDate = event.eventDate {
+                                    Text(eventDate, style: .date)
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
+                                Text("\(event.memberIds.count) member\(event.memberIds.count == 1 ? "" : "s")")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
                             }
                         }
-                        .onDelete(perform: deleteEvents)
                     }
+                    .onDelete(perform: deleteEvents)
                 }
             }
-            .navigationTitle("Events")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { showingCreateEvent = true }) {
-                        Image(systemName: "plus")
-                    }
+        }
+        .navigationTitle("Events")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: { showingCreateEvent = true }) {
+                    Image(systemName: "plus")
                 }
             }
-            .sheet(isPresented: $showingCreateEvent) {
-                CreateEventView(
-                    isPresented: $showingCreateEvent,
-                    onEventCreated: { eventName in
-                        toastMessage = "Event \"\(eventName)\" created"
-                        Task {
-                            await loadEvents()
-                        }
-                    }
-                )
-                .environmentObject(authService)
-            }
-            .onChange(of: showingCreateEvent) { oldValue, newValue in
-                // Reload events when sheet is dismissed (in case it was dismissed without creating)
-                if oldValue == true && newValue == false {
+        }
+        .sheet(isPresented: $showingCreateEvent) {
+            CreateEventView(
+                isPresented: $showingCreateEvent,
+                onEventCreated: { eventName in
+                    toastMessage = "Event \"\(eventName)\" created"
                     Task {
                         await loadEvents()
                     }
                 }
-            }
-            .task {
-                await loadEvents()
-            }
-            .refreshable {
-                await loadEvents()
-            }
-            .toast(message: $toastMessage)
+            )
+            .environmentObject(authService)
         }
+        .onChange(of: showingCreateEvent) { oldValue, newValue in
+            // Reload events when sheet is dismissed (in case it was dismissed without creating)
+            if oldValue == true && newValue == false {
+                Task {
+                    await loadEvents()
+                }
+            }
+        }
+        .task {
+            await loadEvents()
+        }
+        .refreshable {
+            await loadEvents()
+        }
+        .toast(message: $toastMessage)
     }
     
     private func loadEvents() async {

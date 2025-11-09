@@ -1,5 +1,8 @@
 import Foundation
 import OSLog
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct OpenGraphFetcher {
     enum FetchError: Error {
@@ -7,11 +10,12 @@ struct OpenGraphFetcher {
     }
     
     private static let logger = Logger(subsystem: "com.felixdulfer.gift-planner-ios", category: "OpenGraphFetcher")
+    static let userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15"
     
     static func imageURL(for link: URL) async throws -> URL? {
         var request = URLRequest(url: link)
         request.timeoutInterval = 12
-        request.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15", forHTTPHeaderField: "User-Agent")
+        request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
@@ -105,14 +109,26 @@ struct OpenGraphFetcher {
 actor OpenGraphImageCache {
     static let shared = OpenGraphImageCache()
     
-    private var storage: [URL: URL?] = [:]
+#if canImport(UIKit)
+    private var storage: [URL: UIImage?] = [:]
     
-    func cachedImageURL(for link: URL) -> URL?? {
+    func cachedImage(for link: URL) -> UIImage?? {
         storage[link]
     }
     
-    func store(imageURL: URL?, for link: URL) {
-        storage[link] = imageURL
+    func store(image: UIImage?, for link: URL) {
+        storage[link] = image
     }
+#else
+    private var storage: [URL: Image?] = [:]
+    
+    func cachedImage(for link: URL) -> Image?? {
+        storage[link]
+    }
+    
+    func store(image: Image?, for link: URL) {
+        storage[link] = image
+    }
+#endif
 }
 
