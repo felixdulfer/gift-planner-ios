@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CreateEventView: View {
-    @StateObject private var authService = AuthService()
+    @EnvironmentObject var authService: AuthService
     @State private var eventName = ""
     @State private var eventDate = Date()
     @State private var hasDate = false
@@ -101,5 +101,6 @@ struct CreateEventView: View {
 
 #Preview {
     CreateEventView(isPresented: .constant(true))
+        .environmentObject(AuthService())
 }
 

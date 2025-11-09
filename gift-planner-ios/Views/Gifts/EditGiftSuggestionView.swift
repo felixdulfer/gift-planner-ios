@@ -11,6 +11,7 @@ struct EditGiftSuggestionView: View {
     @State private var link: String
     @State private var errorMessage = ""
     @State private var isSaving = false
+    @FocusState private var focusedField: Field?
     
     init(suggestion: GiftSuggestion, canEdit: Bool, isPresented: Binding<Bool>, onSuggestionUpdated: @escaping (GiftSuggestion) -> Void) {
         self.suggestion = suggestion
@@ -20,6 +21,10 @@ struct EditGiftSuggestionView: View {
         _title = State(initialValue: suggestion.title)
         _description = State(initialValue: suggestion.description ?? "")
         _link = State(initialValue: suggestion.link ?? "")
+    }
+    
+    private enum Field: Hashable {
+        case link
     }
     
     var body: some View {
@@ -34,14 +39,44 @@ struct EditGiftSuggestionView: View {
                         .lineLimit(3...6)
                         .textContentType(.none)
                         .disabled(!canEdit)
-                    
-                    TextField("Link", text: $link)
-                        .textContentType(.URL)
-                        .keyboardType(.URL)
-                        .autocapitalization(.none)
-                        .disabled(!canEdit)
                 }
                 
+                Section(header: Text("Link")) {
+                    if let url = normalizedLinkURL {
+                        HStack {
+                            Link(linkDisplayText, destination: url)
+                                .font(.body)
+                            Spacer()
+                            if canEdit {
+                                Button(action: { focusedField = .link }) {
+                                    Image(systemName: "pencil")
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                    } else {
+                        HStack {
+                            Text(linkPlaceholderText)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            if canEdit {
+                                Button(action: { focusedField = .link }) {
+                                    Image(systemName: "pencil")
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                    }
+                    
+                    if canEdit {
+                        TextField("Link", text: $link)
+                            .textContentType(.URL)
+                            .keyboardType(.URL)
+                            .autocapitalization(.none)
+                            .focused($focusedField, equals: .link)
+                    }
+                }
+
                 Section(header: Text("Metadata")) {
                     Text("Suggested by: \(suggestion.suggestedBy)")
                         .font(.caption)
@@ -94,6 +129,9 @@ struct EditGiftSuggestionView: View {
             return
         }
         
+        let trimmedLink = link.trimmingCharacters(in: .whitespacesAndNewlines)
+        link = trimmedLink
+        
         isSaving = true
         errorMessage = ""
         
@@ -101,7 +139,6 @@ struct EditGiftSuggestionView: View {
         updatedSuggestion.title = trimmedTitle
         let trimmedDescription = description.trimmingCharacters(in: .whitespacesAndNewlines)
         updatedSuggestion.description = trimmedDescription.isEmpty ? nil : trimmedDescription
-        let trimmedLink = link.trimmingCharacters(in: .whitespacesAndNewlines)
         updatedSuggestion.link = trimmedLink.isEmpty ? nil : trimmedLink
         
         Task {
@@ -119,6 +156,39 @@ struct EditGiftSuggestionView: View {
                 }
             }
         }
+    }
+    
+    private var normalizedLinkURL: URL? {
+        guard !linkDisplayText.isEmpty else { return nil }
+        
+        if let url = URL(string: trimmedLink), url.scheme != nil {
+            return url
+        }
+        
+        return URL(string: "https://\(trimmedLink)")
+    }
+    
+    private var trimmedLink: String {
+        link.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    private var linkDisplayText: String {
+        let rawLink = trimmedLink
+        guard !rawLink.isEmpty else { return "" }
+        
+        if rawLink.hasPrefix("https://") {
+            return String(rawLink.dropFirst("https://".count))
+        }
+        
+        if rawLink.hasPrefix("http://") {
+            return String(rawLink.dropFirst("http://".count))
+        }
+        
+        return rawLink
+    }
+    
+    private var linkPlaceholderText: String {
+        trimmedLink.isEmpty ? "No link provided" : trimmedLink
     }
 }
 

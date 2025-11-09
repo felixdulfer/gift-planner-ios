@@ -55,6 +55,7 @@ struct ToastView: View {
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.black.opacity(0.8))
         )
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .padding(.horizontal, 20)
         .padding(.top, 8)
     }

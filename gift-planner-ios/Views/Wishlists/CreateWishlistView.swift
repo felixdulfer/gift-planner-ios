@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CreateWishlistView: View {
-    @StateObject private var authService = AuthService()
+    @EnvironmentObject var authService: AuthService
     let eventId: String
     @State private var wishlistName = ""
     @State private var errorMessage = ""
@@ -94,5 +94,6 @@ struct CreateWishlistView: View {
 
 #Preview {
     CreateWishlistView(eventId: "event1", isPresented: .constant(true))
+        .environmentObject(AuthService())
 }
 

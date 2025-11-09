@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AddGiftSuggestionView: View {
-    @StateObject private var authService = AuthService()
+    @EnvironmentObject var authService: AuthService
     let wishlistId: String
     @State private var title = ""
     @State private var description = ""
@@ -107,5 +107,6 @@ struct AddGiftSuggestionView: View {
 
 #Preview {
     AddGiftSuggestionView(wishlistId: "wishlist1", isPresented: .constant(true))
+        .environmentObject(AuthService())
 }
 

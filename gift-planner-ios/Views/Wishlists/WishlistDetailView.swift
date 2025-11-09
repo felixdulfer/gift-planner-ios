@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct WishlistDetailView: View {
-    @StateObject private var authService = AuthService()
+    @EnvironmentObject var authService: AuthService
     let wishlist: Wishlist
     let event: Event
     @State private var currentWishlist: Wishlist
@@ -112,6 +112,7 @@ struct WishlistDetailView: View {
                     }
                 }
             )
+            .environmentObject(authService)
         }
         .onChange(of: showingAddGift) { oldValue, newValue in
             // Refresh when sheet is dismissed
@@ -138,6 +139,7 @@ struct WishlistDetailView: View {
                     }
                 }
             )
+            .environmentObject(authService)
         }
         .sheet(isPresented: $showingEditSuggestion) {
             if let suggestion = selectedSuggestion {
@@ -153,6 +155,7 @@ struct WishlistDetailView: View {
                         }
                     }
                 )
+                .environmentObject(authService)
             } else {
                 EmptyView()
             }
@@ -162,6 +165,10 @@ struct WishlistDetailView: View {
         }
         .refreshable {
             await loadGiftSuggestions()
+        }
+        .safeAreaInset(edge: .bottom) {
+            Color.clear
+                .frame(height: 80)
         }
         .toast(message: $toastMessage)
     }
@@ -233,12 +240,19 @@ struct WishlistDetailView: View {
     private func toggleFavorite(_ suggestion: GiftSuggestion) {
         guard let suggestionId = suggestion.id else { return }
         
+        var updatedSuggestion = suggestion
+        updatedSuggestion.isFavorited.toggle()
+        updateSuggestion(updatedSuggestion)
+        
         Task {
             do {
-                try await FirestoreService.shared.toggleFavorite(suggestionId: suggestionId, isFavorited: !suggestion.isFavorited)
-                await loadGiftSuggestions()
+                try await FirestoreService.shared.toggleFavorite(
+                    suggestionId: suggestionId,
+                    isFavorited: updatedSuggestion.isFavorited
+                )
             } catch {
                 await MainActor.run {
+                    updateSuggestion(suggestion)
                     self.errorMessage = error.localizedDescription
                 }
             }
@@ -248,6 +262,16 @@ struct WishlistDetailView: View {
     private func togglePurchased(_ suggestion: GiftSuggestion) {
         guard let suggestionId = suggestion.id, let userId = authService.userId else { return }
         
+        var updatedSuggestion = suggestion
+        if suggestion.isPurchased {
+            updatedSuggestion.isPurchased = false
+            updatedSuggestion.purchasedBy = nil
+        } else {
+            updatedSuggestion.isPurchased = true
+            updatedSuggestion.purchasedBy = userId
+        }
+        updateSuggestion(updatedSuggestion)
+        
         Task {
             do {
                 if suggestion.isPurchased {
@@ -255,9 +279,9 @@ struct WishlistDetailView: View {
                 } else {
                     try await FirestoreService.shared.markAsPurchased(suggestionId: suggestionId, purchasedBy: userId)
                 }
-                await loadGiftSuggestions()
             } catch {
                 await MainActor.run {
+                    updateSuggestion(suggestion)
                     self.errorMessage = error.localizedDescription
                 }
             }
@@ -277,6 +301,15 @@ struct WishlistDetailView: View {
                 errorMessage = error.localizedDescription
             }
         }
+    }
+    
+    private func updateSuggestion(_ updatedSuggestion: GiftSuggestion) {
+        guard let suggestionId = updatedSuggestion.id,
+              let index = giftSuggestions.firstIndex(where: { $0.id == suggestionId }) else {
+            return
+        }
+        
+        giftSuggestions[index] = updatedSuggestion
     }
 }
 
@@ -314,9 +347,24 @@ struct GiftSuggestionRow: View {
             }
             
             if let link = suggestion.link, !link.isEmpty {
-                Link(link, destination: URL(string: link) ?? URL(string: "https://example.com")!)
-                    .font(.caption)
-                    .foregroundColor(.blue)
+                if let url = URL(string: link) {
+                    OpenGraphPreviewImage(link: url)
+                        .padding(.top, 4)
+                    
+                    Link(destination: url) {
+                        Text(link)
+                            .font(.caption)
+                            .foregroundColor(.blue)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                    }
+                } else {
+                    Text(link)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                }
             }
             
             if canEdit {
@@ -346,11 +394,16 @@ struct GiftSuggestionRow: View {
             }
         }
         .padding(.vertical, 4)
+        .background(
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Color(.systemBackground).opacity(0.85))
+        )
         .contentShape(Rectangle())
         .onTapGesture {
             onTap()
         }
     }
+    
 }
 
 #Preview {
@@ -359,6 +412,7 @@ struct GiftSuggestionRow: View {
             wishlist: Wishlist(eventId: "event1", name: "John's Gifts", createdBy: "user1"),
             event: Event(name: "Christmas 2025", createdBy: "user1", memberIds: ["user1"])
         )
+        .environmentObject(AuthService())
     }
 }
 

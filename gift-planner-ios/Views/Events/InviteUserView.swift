@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct InviteUserView: View {
+    @EnvironmentObject var authService: AuthService
     @State private var inviteEmail = ""
     @State private var errorMessage = ""
     @State private var isLoading = false
@@ -106,5 +107,6 @@ struct InviteUserView: View {
 
 #Preview {
     InviteUserView(eventId: "event1", isPresented: .constant(true))
+        .environmentObject(AuthService())
 }
 

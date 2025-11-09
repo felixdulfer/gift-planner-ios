@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct EventDetailView: View {
-    @StateObject private var authService = AuthService()
+    @EnvironmentObject var authService: AuthService
     @Environment(\.dismiss) private var dismiss
     let onEventDeleted: ((String) -> Void)?
     @State private var currentEvent: Event
@@ -69,7 +69,8 @@ struct EventDetailView: View {
                         .font(.subheadline)
                 } else {
                     ForEach(wishlists) { wishlist in
-                        NavigationLink(destination: WishlistDetailView(wishlist: wishlist, event: currentEvent)) {
+                        NavigationLink(destination: WishlistDetailView(wishlist: wishlist, event: currentEvent)
+                            .environmentObject(authService)) {
                             Text(wishlist.name)
                         }
                     }
@@ -130,6 +131,7 @@ struct EventDetailView: View {
                     }
                 }
             )
+            .environmentObject(authService)
         }
         .onChange(of: showingCreateWishlist) { oldValue, newValue in
             // Reload wishlists when sheet is dismissed
@@ -147,9 +149,11 @@ struct EventDetailView: View {
                     onUserInvited: {
                         Task {
                             await loadEvent()
+                            await loadWishlists()
                         }
                     }
                 )
+                .environmentObject(authService)
             }
         }
         .sheet(isPresented: $showingEditEvent) {
@@ -168,6 +172,7 @@ struct EventDetailView: View {
         .sheet(isPresented: $showingMembers) {
             NavigationView {
                 EventMembersView(event: currentEvent)
+                    .environmentObject(authService)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             Button("Done") {
@@ -182,6 +187,10 @@ struct EventDetailView: View {
         }
         .refreshable {
             await loadWishlists()
+        }
+        .safeAreaInset(edge: .bottom) {
+            Color.clear
+                .frame(height: 80)
         }
         .toast(message: $toastMessage)
     }
@@ -261,6 +270,7 @@ struct EventDetailView: View {
 #Preview {
     NavigationView {
         EventDetailView(event: Event(name: "Christmas 2025", createdBy: "user1", memberIds: ["user1"]))
+            .environmentObject(AuthService())
     }
 }
 

@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct EditEventView: View {
-    @StateObject private var authService = AuthService()
     let event: Event
     @State private var eventName: String
     @State private var eventDate: Date

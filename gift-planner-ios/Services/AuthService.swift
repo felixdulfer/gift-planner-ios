@@ -6,6 +6,14 @@ class AuthService: ObservableObject {
     @Published var currentUser: User?
     @Published var isAuthenticated = false
     
+    var userId: String? {
+        currentUser?.uid
+    }
+    
+    var displayName: String? {
+        currentUser?.displayName
+    }
+
     private var handle: AuthStateDidChangeListenerHandle?
     
     init() {
@@ -53,10 +61,10 @@ class AuthService: ObservableObject {
     
     func signOut() throws {
         try Auth.auth().signOut()
-    }
-    
-    var userId: String? {
-        Auth.auth().currentUser?.uid
+        DispatchQueue.main.async {
+            self.currentUser = nil
+            self.isAuthenticated = false
+        }
     }
 }
 

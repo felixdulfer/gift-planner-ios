@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct EditWishlistView: View {
-    @StateObject private var authService = AuthService()
     let wishlist: Wishlist
     @State private var wishlistName: String
     @State private var errorMessage = ""

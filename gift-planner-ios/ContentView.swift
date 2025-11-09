@@ -7,12 +7,17 @@ struct ContentView: View {
     @EnvironmentObject var authService: AuthService
     @State private var showingLogin = false
     @State private var showingSignUp = false
+    @State private var selectedTab: DashboardTab = .events
+    
+    enum DashboardTab {
+        case events
+        case account
+    }
     
     var body: some View {
         Group {
             if authService.isAuthenticated {
-                EventsListView()
-                    .environmentObject(authService)
+                authenticatedView
             } else {
                 VStack(spacing: 30) {
                     Image(systemName: "gift.fill")
@@ -57,6 +62,68 @@ struct ContentView: View {
                         .environmentObject(authService)
                 }
             }
+        }
+    }
+    
+    private var authenticatedView: some View {
+        let content: AnyView
+        switch selectedTab {
+        case .events:
+            content = AnyView(EventsListView().environmentObject(authService))
+        case .account:
+            content = AnyView(AccountView().environmentObject(authService))
+        }
+        
+        return content
+            .safeAreaInset(edge: .bottom) {
+                FloatingTabBar(selectedTab: $selectedTab)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 16)
+            }
+    }
+}
+
+private struct FloatingTabBar: View {
+    @Binding var selectedTab: ContentView.DashboardTab
+    
+    var body: some View {
+        HStack(spacing: 24) {
+            tabButton(
+                title: "Events",
+                systemImage: "calendar",
+                tab: .events
+            )
+            
+            tabButton(
+                title: "Account",
+                systemImage: "person.circle",
+                tab: .account
+            )
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+        .background(.ultraThinMaterial)
+        .clipShape(Capsule())
+    }
+    
+    private func tabButton(title: String, systemImage: String, tab: ContentView.DashboardTab) -> some View {
+        Button {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                selectedTab = tab
+            }
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: systemImage)
+                    .font(.headline)
+                Text(title)
+                    .font(.subheadline)
+                    .fontWeight(selectedTab == tab ? .semibold : .regular)
+            }
+            .foregroundColor(selectedTab == tab ? .accentColor : .secondary)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(selectedTab == tab ? Color.accentColor.opacity(0.12) : Color.clear)
+            .clipShape(Capsule())
         }
     }
 }

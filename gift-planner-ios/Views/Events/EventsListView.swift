@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct EventsListView: View {
-    @StateObject private var authService = AuthService()
+    @EnvironmentObject var authService: AuthService
     @State private var events: [Event] = []
     @State private var isLoading = false
     @State private var errorMessage = ""
@@ -43,7 +43,8 @@ struct EventsListView: View {
                                         await loadEvents()
                                     }
                                 }
-                            )) {
+                            )
+                            .environmentObject(authService)) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(event.name)
                                         .font(.headline)
@@ -69,11 +70,6 @@ struct EventsListView: View {
                         Image(systemName: "plus")
                     }
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Sign Out") {
-                        try? authService.signOut()
-                    }
-                }
             }
             .sheet(isPresented: $showingCreateEvent) {
                 CreateEventView(
@@ -85,6 +81,7 @@ struct EventsListView: View {
                         }
                     }
                 )
+                .environmentObject(authService)
             }
             .onChange(of: showingCreateEvent) { oldValue, newValue in
                 // Reload events when sheet is dismissed (in case it was dismissed without creating)
@@ -145,5 +142,6 @@ struct EventsListView: View {
 
 #Preview {
     EventsListView()
+        .environmentObject(AuthService())
 }
 
