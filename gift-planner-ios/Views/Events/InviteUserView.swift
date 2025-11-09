@@ -6,6 +6,13 @@ struct InviteUserView: View {
     @State private var isLoading = false
     let eventId: String
     @Binding var isPresented: Bool
+    var onUserInvited: (() -> Void)?
+    
+    init(eventId: String, isPresented: Binding<Bool>, onUserInvited: (() -> Void)? = nil) {
+        self.eventId = eventId
+        self._isPresented = isPresented
+        self.onUserInvited = onUserInvited
+    }
     
     var body: some View {
         NavigationView {
@@ -83,6 +90,9 @@ struct InviteUserView: View {
                     isLoading = false
                     inviteEmail = ""
                     isPresented = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        onUserInvited?()
+                    }
                 }
             } catch {
                 await MainActor.run {

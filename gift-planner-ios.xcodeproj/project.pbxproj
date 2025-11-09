@@ -32,6 +32,8 @@
 		AC3CEB182EC0B7F000E403A9 /* EventsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB012EC0B7F000E403A9 /* EventsListView.swift */; };
 		AC3CEB1C2EC1255C00E403A9 /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB1A2EC1255C00E403A9 /* ToastModifier.swift */; };
 		AC3CEB1D2EC1255C00E403A9 /* HapticFeedbackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB192EC1255C00E403A9 /* HapticFeedbackHelper.swift */; };
+		AC3CEB1F2EC1255D00E403A9 /* EditEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB1E2EC1255D00E403A9 /* EditEventView.swift */; };
+		AC3CEB212EC1255D00E403A9 /* EventMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB202EC1255D00E403A9 /* EventMembersView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +64,8 @@
 		AC3CEB072EC0B7F000E403A9 /* WishlistDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistDetailView.swift; sourceTree = "<group>"; };
 		AC3CEB192EC1255C00E403A9 /* HapticFeedbackHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedbackHelper.swift; sourceTree = "<group>"; };
 		AC3CEB1A2EC1255C00E403A9 /* ToastModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastModifier.swift; sourceTree = "<group>"; };
+		AC3CEB1E2EC1255D00E403A9 /* EditEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventView.swift; sourceTree = "<group>"; };
+		AC3CEB202EC1255D00E403A9 /* EventMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMembersView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +160,8 @@
 			children = (
 				AC3CEAFF2EC0B7F000E403A9 /* CreateEventView.swift */,
 				AC3CEB002EC0B7F000E403A9 /* EventDetailView.swift */,
+				AC3CEB1E2EC1255D00E403A9 /* EditEventView.swift */,
+				AC3CEB202EC1255D00E403A9 /* EventMembersView.swift */,
 				AC3CEB012EC0B7F000E403A9 /* EventsListView.swift */,
 				AC3CEB022EC0B7F000E403A9 /* InviteUserView.swift */,
 			);
@@ -277,6 +283,8 @@
 				AC3CEB102EC0B7F000E403A9 /* AddGiftSuggestionView.swift in Sources */,
 				AC3CEB1C2EC1255C00E403A9 /* ToastModifier.swift in Sources */,
 				AC3CEB1D2EC1255C00E403A9 /* HapticFeedbackHelper.swift in Sources */,
+				AC3CEB1F2EC1255D00E403A9 /* EditEventView.swift in Sources */,
+				AC3CEB212EC1255D00E403A9 /* EventMembersView.swift in Sources */,
 				AC3CEB112EC0B7F000E403A9 /* AuthService.swift in Sources */,
 				AC3CEB122EC0B7F000E403A9 /* SignUpView.swift in Sources */,
 				AC3CEB132EC0B7F000E403A9 /* WishlistDetailView.swift in Sources */,
