@@ -35,11 +35,15 @@ struct OpenGraphFetcher {
     }
     
     private static func htmlString(from data: Data, response: HTTPURLResponse) -> String? {
-        if let encodingName = response.textEncodingName,
-           let cfEncoding = CFStringConvertIANACharSetNameToEncoding(encodingName as CFString),
-           cfEncoding != kCFStringEncodingInvalidId {
-            let encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding)
-            return String(data: data, encoding: String.Encoding(rawValue: encoding))
+        if let encodingName = response.textEncodingName {
+            let cfEncoding = CFStringConvertIANACharSetNameToEncoding(encodingName as CFString)
+            if cfEncoding != kCFStringEncodingInvalidId {
+                let encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding)
+                let stringEncoding = String.Encoding(rawValue: encoding)
+                if let html = String(data: data, encoding: stringEncoding) {
+                    return html
+                }
+            }
         }
         
         if let html = String(data: data, encoding: .utf8) {

@@ -1,0 +1,43 @@
+		AC3CEB262EC1256100E403A9 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		AC9F00012EF0ABCD00E403A9 /* OpenGraphPreviewImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenGraphPreviewImage.swift; sourceTree = "<group>"; };
+		AC9F00022EF0ABCD00E403A9 /* OpenGraphFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenGraphFetcher.swift; sourceTree = "<group>"; };
+		AC3CEB1B2EC1255C00E403A9 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				AC3CEB192EC1255C00E403A9 /* HapticFeedbackHelper.swift */,
+				AC3CEB1A2EC1255C00E403A9 /* ToastModifier.swift */,
+				AC9F00022EF0ABCD00E403A9 /* OpenGraphFetcher.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		AC3CEB092EC0B7F000E403A9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AC3CEAFE2EC0B7F000E403A9 /* Auth */,
+				AC3CEB032EC0B7F000E403A9 /* Events */,
+				AC3CEB052EC0B7F000E403A9 /* Gifts */,
+				AC9F00052EF0ABCD00E403A9 /* Shared */,
+				AC3CEB082EC0B7F000E403A9 /* Wishlists */,
+				AC3CEB282EC1256100E403A9 /* Account */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AC9F00052EF0ABCD00E403A9 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				AC9F00012EF0ABCD00E403A9 /* OpenGraphPreviewImage.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		AC3CEB1D2EC1255C00E403A9 /* HapticFeedbackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB192EC1255C00E403A9 /* HapticFeedbackHelper.swift */; };
+		AC3CEB1F2EC1255D00E403A9 /* EditEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB1E2EC1255D00E403A9 /* EditEventView.swift */; };
+		AC3CEB212EC1255D00E403A9 /* EventMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB202EC1255D00E403A9 /* EventMembersView.swift */; };
+		AC3CEB222EC1255E00E403A9 /* EditWishlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB232EC1255E00E403A9 /* EditWishlistView.swift */; };
+		AC3CEB242EC1255E00E403A9 /* EditGiftSuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB232EC1255F00E403A9 /* EditGiftSuggestionView.swift */; };
+		ACF500022EF1AAAA00E403A9 /* OpenGraphFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F00022EF0ABCD00E403A9 /* OpenGraphFetcher.swift */; };
+		ACF500012EF1AAAA00E403A9 /* OpenGraphPreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9F00012EF0ABCD00E403A9 /* OpenGraphPreviewImage.swift */; };
+		AC3CEB272EC1256100E403A9 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB262EC1256100E403A9 /* AccountView.swift */; };
+/* End PBXBuildFile section */
