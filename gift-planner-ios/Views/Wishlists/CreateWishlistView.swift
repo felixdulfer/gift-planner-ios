@@ -7,6 +7,13 @@ struct CreateWishlistView: View {
     @State private var errorMessage = ""
     @State private var isLoading = false
     @Binding var isPresented: Bool
+    var onWishlistCreated: ((String) -> Void)?
+    
+    init(eventId: String, isPresented: Binding<Bool>, onWishlistCreated: ((String) -> Void)? = nil) {
+        self.eventId = eventId
+        self._isPresented = isPresented
+        self.onWishlistCreated = onWishlistCreated
+    }
     
     var body: some View {
         NavigationView {
@@ -68,7 +75,12 @@ struct CreateWishlistView: View {
                 _ = try await FirestoreService.shared.createWishlist(wishlist)
                 await MainActor.run {
                     isLoading = false
+                    let createdWishlistName = wishlistName
                     isPresented = false
+                    // Call callback after dismissing sheet
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        onWishlistCreated?(createdWishlistName)
+                    }
                 }
             } catch {
                 await MainActor.run {

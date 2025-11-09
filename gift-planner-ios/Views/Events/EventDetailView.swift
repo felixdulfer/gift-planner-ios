@@ -10,6 +10,7 @@ struct EventDetailView: View {
     @State private var errorMessage = ""
     @State private var showingCreateWishlist = false
     @State private var showingInviteUser = false
+    @State private var toastMessage: String?
     
     init(event: Event, onEventDeleted: ((String) -> Void)? = nil) {
         self.event = event
@@ -98,7 +99,16 @@ struct EventDetailView: View {
             }
         }
         .sheet(isPresented: $showingCreateWishlist) {
-            CreateWishlistView(eventId: event.id ?? "", isPresented: $showingCreateWishlist)
+            CreateWishlistView(
+                eventId: event.id ?? "",
+                isPresented: $showingCreateWishlist,
+                onWishlistCreated: { wishlistName in
+                    toastMessage = "Wishlist \"\(wishlistName)\" created"
+                    Task {
+                        await loadWishlists()
+                    }
+                }
+            )
         }
         .onChange(of: showingCreateWishlist) { oldValue, newValue in
             // Reload wishlists when sheet is dismissed
@@ -119,6 +129,7 @@ struct EventDetailView: View {
         .refreshable {
             await loadWishlists()
         }
+        .toast(message: $toastMessage)
     }
     
     private func loadWishlists() async {
