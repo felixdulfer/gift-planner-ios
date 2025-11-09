@@ -34,6 +34,7 @@
 		AC3CEB1D2EC1255C00E403A9 /* HapticFeedbackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB192EC1255C00E403A9 /* HapticFeedbackHelper.swift */; };
 		AC3CEB1F2EC1255D00E403A9 /* EditEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB1E2EC1255D00E403A9 /* EditEventView.swift */; };
 		AC3CEB212EC1255D00E403A9 /* EventMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB202EC1255D00E403A9 /* EventMembersView.swift */; };
+		AC3CEB222EC1255E00E403A9 /* EditWishlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB232EC1255E00E403A9 /* EditWishlistView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,9 +45,6 @@
 		A1000005294A1A1A00000006 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A1000007294A1A1A00000008 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC3CEAEC2EC0B43300E403A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		AC3CEAEE2EC0B52900E403A9 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		AC3CEAF02EC0B54A00E403A9 /* EventsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListView.swift; sourceTree = "<group>"; };
-		AC3CEAF22EC0B56500E403A9 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		AC3CEAF42EC0B7F000E403A9 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		AC3CEAF52EC0B7F000E403A9 /* GiftSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftSuggestion.swift; sourceTree = "<group>"; };
 		AC3CEAF62EC0B7F000E403A9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -66,6 +64,7 @@
 		AC3CEB1A2EC1255C00E403A9 /* ToastModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastModifier.swift; sourceTree = "<group>"; };
 		AC3CEB1E2EC1255D00E403A9 /* EditEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventView.swift; sourceTree = "<group>"; };
 		AC3CEB202EC1255D00E403A9 /* EventMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventMembersView.swift; sourceTree = "<group>"; };
+		AC3CEB232EC1255E00E403A9 /* EditWishlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWishlistView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,9 +110,6 @@
 				A1000003294A1A1A00000004 /* Assets.xcassets */,
 				A1000007294A1A1A00000008 /* Info.plist */,
 				A1000009294A1A1A0000000A /* Preview Content */,
-				AC3CEAEE2EC0B52900E403A9 /* AuthService.swift */,
-				AC3CEAF02EC0B54A00E403A9 /* EventsListView.swift */,
-				AC3CEAF22EC0B56500E403A9 /* SignUpView.swift */,
 			);
 			path = "gift-planner-ios";
 			sourceTree = "<group>";
@@ -180,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				AC3CEB062EC0B7F000E403A9 /* CreateWishlistView.swift */,
+				AC3CEB232EC1255E00E403A9 /* EditWishlistView.swift */,
 				AC3CEB072EC0B7F000E403A9 /* WishlistDetailView.swift */,
 			);
 			path = Wishlists;
@@ -285,6 +282,7 @@
 				AC3CEB1D2EC1255C00E403A9 /* HapticFeedbackHelper.swift in Sources */,
 				AC3CEB1F2EC1255D00E403A9 /* EditEventView.swift in Sources */,
 				AC3CEB212EC1255D00E403A9 /* EventMembersView.swift in Sources */,
+				AC3CEB222EC1255E00E403A9 /* EditWishlistView.swift in Sources */,
 				AC3CEB112EC0B7F000E403A9 /* AuthService.swift in Sources */,
 				AC3CEB122EC0B7F000E403A9 /* SignUpView.swift in Sources */,
 				AC3CEB132EC0B7F000E403A9 /* WishlistDetailView.swift in Sources */,

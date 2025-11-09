@@ -4,10 +4,19 @@ struct WishlistDetailView: View {
     @StateObject private var authService = AuthService()
     let wishlist: Wishlist
     let event: Event
+    @State private var currentWishlist: Wishlist
     @State private var giftSuggestions: [GiftSuggestion] = []
     @State private var isLoading = false
     @State private var errorMessage = ""
     @State private var showingAddGift = false
+    @State private var showingEditWishlist = false
+    @State private var toastMessage: String?
+    
+    init(wishlist: Wishlist, event: Event) {
+        self.wishlist = wishlist
+        self.event = event
+        self._currentWishlist = State(initialValue: wishlist)
+    }
     
     var canEdit: Bool {
         guard let userId = authService.userId else { return false }
@@ -17,7 +26,7 @@ struct WishlistDetailView: View {
     var body: some View {
         List {
             Section {
-                Text(wishlist.name)
+                Text(currentWishlist.name)
                     .font(.title2)
                     .fontWeight(.bold)
             }
@@ -67,6 +76,12 @@ struct WishlistDetailView: View {
             if canEdit {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
+                        Button(action: { showingEditWishlist = true }) {
+                            Label("Edit Wishlist", systemImage: "pencil")
+                        }
+                        
+                        Divider()
+                        
                         Button(role: .destructive, action: {
                             Task {
                                 await deleteWishlist()
@@ -81,7 +96,7 @@ struct WishlistDetailView: View {
             }
         }
         .sheet(isPresented: $showingAddGift) {
-            AddGiftSuggestionView(wishlistId: wishlist.id ?? "", isPresented: $showingAddGift)
+            AddGiftSuggestionView(wishlistId: currentWishlist.id ?? "", isPresented: $showingAddGift)
         }
         .onChange(of: showingAddGift) { oldValue, newValue in
             // Refresh when sheet is dismissed
@@ -91,16 +106,30 @@ struct WishlistDetailView: View {
                 }
             }
         }
+        .sheet(isPresented: $showingEditWishlist) {
+            EditWishlistView(
+                wishlist: currentWishlist,
+                isPresented: $showingEditWishlist,
+                onWishlistUpdated: {
+                    toastMessage = "Wishlist updated"
+                    Task {
+                        await loadWishlist()
+                        await loadGiftSuggestions()
+                    }
+                }
+            )
+        }
         .task {
             await loadGiftSuggestions()
         }
         .refreshable {
             await loadGiftSuggestions()
         }
+        .toast(message: $toastMessage)
     }
     
     private func loadGiftSuggestions() async {
-        guard let wishlistId = wishlist.id else {
+        guard let wishlistId = currentWishlist.id else {
             await MainActor.run {
                 errorMessage = "Wishlist ID is missing"
                 isLoading = false
@@ -126,6 +155,21 @@ struct WishlistDetailView: View {
             await MainActor.run {
                 self.errorMessage = error.localizedDescription
                 self.isLoading = false
+            }
+        }
+    }
+    
+    private func loadWishlist() async {
+        guard let wishlistId = currentWishlist.id else { return }
+        
+        do {
+            let updatedWishlist = try await FirestoreService.shared.getWishlist(wishlistId: wishlistId)
+            await MainActor.run {
+                self.currentWishlist = updatedWishlist
+            }
+        } catch {
+            await MainActor.run {
+                self.errorMessage = error.localizedDescription
             }
         }
     }
@@ -183,7 +227,7 @@ struct WishlistDetailView: View {
     }
     
     private func deleteWishlist() async {
-        guard let wishlistId = wishlist.id else { return }
+        guard let wishlistId = currentWishlist.id else { return }
         
         do {
             try await FirestoreService.shared.deleteWishlist(wishlistId: wishlistId)
