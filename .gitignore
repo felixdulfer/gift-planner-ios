@@ -96,6 +96,15 @@ iOSInjectionProject/
 .AppleDouble
 .LSOverride
 
+# IDE - VS Code
+.vscode/*
+# except for shared settings that the team wants to track
+!.vscode/settings.json
+
+# IDE - Xcode (see above)
+# IDE - AppCode
+.idea/
+
 # Thumbnails
 ._*
 
