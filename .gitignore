@@ -1,1 +1,7 @@
 .DS_Store
+
+# Xcode user-specific files
+*.xcuserstate
+*.xcuserdatad
+project.xcworkspace/xcuserdata/
+*.xcworkspace/xcuserdata/

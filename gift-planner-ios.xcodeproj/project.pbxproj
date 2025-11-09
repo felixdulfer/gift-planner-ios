@@ -15,9 +15,6 @@
 		AC3CEAE92EC0B1D100E403A9 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = AC3CEAE82EC0B1D100E403A9 /* FirebaseCore */; };
 		AC3CEAEB2EC0B1D100E403A9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AC3CEAEA2EC0B1D100E403A9 /* FirebaseFirestore */; };
 		AC3CEAED2EC0B43300E403A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC3CEAEC2EC0B43300E403A9 /* GoogleService-Info.plist */; };
-		AC3CEAEF2EC0B52900E403A9 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAEE2EC0B52900E403A9 /* AuthService.swift */; };
-		AC3CEAF12EC0B54A00E403A9 /* EventsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAF02EC0B54A00E403A9 /* EventsListView.swift */; };
-		AC3CEAF32EC0B56500E403A9 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAF22EC0B56500E403A9 /* SignUpView.swift */; };
 		AC3CEB0A2EC0B7F000E403A9 /* GiftSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAF52EC0B7F000E403A9 /* GiftSuggestion.swift */; };
 		AC3CEB0B2EC0B7F000E403A9 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEB002EC0B7F000E403A9 /* EventDetailView.swift */; };
 		AC3CEB0C2EC0B7F000E403A9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3CEAFC2EC0B7F000E403A9 /* LoginView.swift */; };
@@ -216,7 +213,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2610;
 			};
 			buildConfigurationList = A100000B294A1A1A0000000C /* Build configuration list for PBXProject "gift-planner-ios" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -338,6 +335,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -394,6 +392,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};

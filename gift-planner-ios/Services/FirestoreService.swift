@@ -12,7 +12,7 @@ class FirestoreService {
     
     func createUser(_ user: AppUser) async throws {
         guard let id = user.id else { throw NSError(domain: "FirestoreService", code: -1, userInfo: [NSLocalizedDescriptionKey: "User ID is required"]) }
-        try await db.collection("users").document(id).setData(from: user)
+        try db.collection("users").document(id).setData(from: user)
     }
     
     func getUser(userId: String) async throws -> AppUser {
@@ -28,7 +28,7 @@ class FirestoreService {
     // MARK: - Event Operations
     
     func createEvent(_ event: Event) async throws -> String {
-        let ref = try await db.collection("events").addDocument(from: event)
+        let ref = try db.collection("events").addDocument(from: event)
         return ref.documentID
     }
     
@@ -51,7 +51,7 @@ class FirestoreService {
     
     func updateEvent(_ event: Event) async throws {
         guard let id = event.id else { throw NSError(domain: "FirestoreService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Event ID is required"]) }
-        try await db.collection("events").document(id).setData(from: event, merge: true)
+        try db.collection("events").document(id).setData(from: event, merge: true)
     }
     
     func deleteEvent(eventId: String) async throws {
@@ -68,7 +68,7 @@ class FirestoreService {
     // MARK: - Wishlist Operations
     
     func createWishlist(_ wishlist: Wishlist) async throws -> String {
-        let ref = try await db.collection("wishlists").addDocument(from: wishlist)
+        let ref = try db.collection("wishlists").addDocument(from: wishlist)
         return ref.documentID
     }
     
@@ -91,7 +91,7 @@ class FirestoreService {
     
     func updateWishlist(_ wishlist: Wishlist) async throws {
         guard let id = wishlist.id else { throw NSError(domain: "FirestoreService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Wishlist ID is required"]) }
-        try await db.collection("wishlists").document(id).setData(from: wishlist, merge: true)
+        try db.collection("wishlists").document(id).setData(from: wishlist, merge: true)
     }
     
     func deleteWishlist(wishlistId: String) async throws {
@@ -110,7 +110,7 @@ class FirestoreService {
     // MARK: - Gift Suggestion Operations
     
     func createGiftSuggestion(_ suggestion: GiftSuggestion) async throws -> String {
-        let ref = try await db.collection("giftSuggestions").addDocument(from: suggestion)
+        let ref = try db.collection("giftSuggestions").addDocument(from: suggestion)
         return ref.documentID
     }
     
@@ -125,7 +125,7 @@ class FirestoreService {
     
     func updateGiftSuggestion(_ suggestion: GiftSuggestion) async throws {
         guard let id = suggestion.id else { throw NSError(domain: "FirestoreService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Gift suggestion ID is required"]) }
-        try await db.collection("giftSuggestions").document(id).setData(from: suggestion, merge: true)
+        try db.collection("giftSuggestions").document(id).setData(from: suggestion, merge: true)
     }
     
     func deleteGiftSuggestion(suggestionId: String) async throws {
