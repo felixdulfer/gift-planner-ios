@@ -2,6 +2,8 @@ import Foundation
 import OSLog
 #if canImport(UIKit)
 import UIKit
+#else
+import SwiftUI
 #endif
 
 struct OpenGraphFetcher {

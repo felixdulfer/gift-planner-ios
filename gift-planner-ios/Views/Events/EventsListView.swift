@@ -63,6 +63,7 @@ struct EventsListView: View {
             }
         }
         .navigationTitle("Events")
+        .toolbarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: { showingCreateEvent = true }) {

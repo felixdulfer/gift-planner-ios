@@ -67,24 +67,20 @@ struct ContentView: View {
     
     private var authenticatedView: some View {
         NavigationStack {
-            selectedTabView
+            Group {
+                switch selectedTab {
+                case .events:
+                    EventsListView()
+                case .account:
+                    AccountView()
+                }
+            }
+            .toolbarTitleDisplayMode(.large)
         }
         .safeAreaInset(edge: .bottom) {
             FloatingTabBar(selectedTab: $selectedTab)
                 .padding(.horizontal, 24)
                 .padding(.bottom, 16)
-        }
-    }
-    
-    @ViewBuilder
-    private var selectedTabView: some View {
-        switch selectedTab {
-        case .events:
-            EventsListView()
-                .environmentObject(authService)
-        case .account:
-            AccountView()
-                .environmentObject(authService)
         }
     }
 }
