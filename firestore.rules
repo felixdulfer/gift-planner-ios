@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can read/write their own user document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Events: members can read, edit, delete
+    match /events/{eventId} {
+      allow read: if request.auth != null && request.auth.uid in resource.data.memberIds;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.createdBy;
+      allow update, delete: if request.auth != null && request.auth.uid in resource.data.memberIds;
+    }
+
+    // Wishlists: event members can read, edit, delete
+    match /wishlists/{wishlistId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null;
+    }
+
+    // Gift suggestions: event members can read, edit, delete
+    match /giftSuggestions/{suggestionId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null;
+    }
+  }
+}
+
