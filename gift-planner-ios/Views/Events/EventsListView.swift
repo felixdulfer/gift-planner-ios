@@ -76,7 +76,23 @@ struct EventsListView: View {
                 }
             }
             .sheet(isPresented: $showingCreateEvent) {
-                CreateEventView(isPresented: $showingCreateEvent)
+                CreateEventView(
+                    isPresented: $showingCreateEvent,
+                    onEventCreated: { eventName in
+                        toastMessage = "Event \"\(eventName)\" created"
+                        Task {
+                            await loadEvents()
+                        }
+                    }
+                )
+            }
+            .onChange(of: showingCreateEvent) { oldValue, newValue in
+                // Reload events when sheet is dismissed (in case it was dismissed without creating)
+                if oldValue == true && newValue == false {
+                    Task {
+                        await loadEvents()
+                    }
+                }
             }
             .task {
                 await loadEvents()

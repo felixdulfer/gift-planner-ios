@@ -8,6 +8,12 @@ struct CreateEventView: View {
     @State private var errorMessage = ""
     @State private var isLoading = false
     @Binding var isPresented: Bool
+    var onEventCreated: ((String) -> Void)?
+    
+    init(isPresented: Binding<Bool>, onEventCreated: ((String) -> Void)? = nil) {
+        self._isPresented = isPresented
+        self.onEventCreated = onEventCreated
+    }
     
     var body: some View {
         NavigationView {
@@ -76,7 +82,12 @@ struct CreateEventView: View {
                 _ = try await FirestoreService.shared.createEvent(event)
                 await MainActor.run {
                     isLoading = false
+                    let createdEventName = eventName
                     isPresented = false
+                    // Call callback after dismissing sheet
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        onEventCreated?(createdEventName)
+                    }
                 }
             } catch {
                 await MainActor.run {
