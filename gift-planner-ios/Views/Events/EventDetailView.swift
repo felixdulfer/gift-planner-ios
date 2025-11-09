@@ -100,6 +100,14 @@ struct EventDetailView: View {
         .sheet(isPresented: $showingCreateWishlist) {
             CreateWishlistView(eventId: event.id ?? "", isPresented: $showingCreateWishlist)
         }
+        .onChange(of: showingCreateWishlist) { oldValue, newValue in
+            // Reload wishlists when sheet is dismissed
+            if oldValue == true && newValue == false {
+                Task {
+                    await loadWishlists()
+                }
+            }
+        }
         .sheet(isPresented: $showingInviteUser) {
             if let eventId = event.id {
                 InviteUserView(eventId: eventId, isPresented: $showingInviteUser)
