@@ -110,17 +110,34 @@ class FirestoreService {
     // MARK: - Gift Suggestion Operations
     
     func createGiftSuggestion(_ suggestion: GiftSuggestion) async throws -> String {
+        print("FirestoreService: Creating gift suggestion: \(suggestion.title) for wishlist: \(suggestion.wishlistId)")
         let ref = try db.collection("giftSuggestions").addDocument(from: suggestion)
+        print("FirestoreService: Created gift suggestion with ID: \(ref.documentID)")
         return ref.documentID
     }
     
     func getGiftSuggestions(for wishlistId: String) async throws -> [GiftSuggestion] {
+        print("FirestoreService: Querying giftSuggestions for wishlistId: \(wishlistId)")
         let snapshot = try await db.collection("giftSuggestions")
             .whereField("wishlistId", isEqualTo: wishlistId)
             .order(by: "createdAt", descending: true)
             .getDocuments()
         
-        return try snapshot.documents.compactMap { try $0.data(as: GiftSuggestion.self) }
+        print("FirestoreService: Found \(snapshot.documents.count) documents")
+        
+        let suggestions = try snapshot.documents.compactMap { doc -> GiftSuggestion? in
+            do {
+                let suggestion = try doc.data(as: GiftSuggestion.self)
+                print("FirestoreService: Successfully decoded suggestion: \(suggestion.title)")
+                return suggestion
+            } catch {
+                print("FirestoreService: Error decoding document \(doc.documentID): \(error)")
+                return nil
+            }
+        }
+        
+        print("FirestoreService: Returning \(suggestions.count) gift suggestions")
+        return suggestions
     }
     
     func updateGiftSuggestion(_ suggestion: GiftSuggestion) async throws {

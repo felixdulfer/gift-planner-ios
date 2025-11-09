@@ -23,7 +23,13 @@ struct WishlistDetailView: View {
             }
             
             Section(header: Text("Gift Suggestions")) {
-                if giftSuggestions.isEmpty {
+                if isLoading {
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                        Spacer()
+                    }
+                } else if giftSuggestions.isEmpty {
                     Text("No gift suggestions yet")
                         .foregroundColor(.secondary)
                         .font(.subheadline)
@@ -37,6 +43,14 @@ struct WishlistDetailView: View {
                         )
                     }
                     .onDelete(perform: deleteSuggestions)
+                }
+            }
+            
+            if !errorMessage.isEmpty {
+                Section {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .font(.caption)
                 }
             }
             
@@ -65,6 +79,14 @@ struct WishlistDetailView: View {
         .sheet(isPresented: $showingAddGift) {
             AddGiftSuggestionView(wishlistId: wishlist.id ?? "", isPresented: $showingAddGift)
         }
+        .onChange(of: showingAddGift) { oldValue, newValue in
+            // Refresh when sheet is dismissed
+            if oldValue == true && newValue == false {
+                Task {
+                    await loadGiftSuggestions()
+                }
+            }
+        }
         .task {
             await loadGiftSuggestions()
         }
@@ -74,18 +96,29 @@ struct WishlistDetailView: View {
     }
     
     private func loadGiftSuggestions() async {
-        guard let wishlistId = wishlist.id else { return }
+        guard let wishlistId = wishlist.id else {
+            await MainActor.run {
+                errorMessage = "Wishlist ID is missing"
+                isLoading = false
+            }
+            return
+        }
         
-        isLoading = true
-        errorMessage = ""
+        await MainActor.run {
+            isLoading = true
+            errorMessage = ""
+        }
         
         do {
+            print("Loading gift suggestions for wishlist: \(wishlistId)")
             let loadedSuggestions = try await FirestoreService.shared.getGiftSuggestions(for: wishlistId)
+            print("Loaded \(loadedSuggestions.count) gift suggestions")
             await MainActor.run {
                 self.giftSuggestions = loadedSuggestions
                 self.isLoading = false
             }
         } catch {
+            print("Error loading gift suggestions: \(error)")
             await MainActor.run {
                 self.errorMessage = error.localizedDescription
                 self.isLoading = false

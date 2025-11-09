@@ -406,6 +406,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"gift-planner-ios/Preview Content\"";
+				DEVELOPMENT_TEAM = 7T6XS6W9YY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "gift-planner-ios/Info.plist";
@@ -435,6 +436,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"gift-planner-ios/Preview Content\"";
+				DEVELOPMENT_TEAM = 7T6XS6W9YY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "gift-planner-ios/Info.plist";
