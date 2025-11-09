@@ -52,21 +52,21 @@ service cloud.firestore {
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
-    
+
     // Events: members can read, edit, delete
     match /events/{eventId} {
       allow read: if request.auth != null && request.auth.uid in resource.data.memberIds;
       allow create: if request.auth != null && request.auth.uid == request.resource.data.createdBy;
       allow update, delete: if request.auth != null && request.auth.uid in resource.data.memberIds;
     }
-    
+
     // Wishlists: event members can read, edit, delete
     match /wishlists/{wishlistId} {
       allow read: if request.auth != null;
       allow create: if request.auth != null;
       allow update, delete: if request.auth != null;
     }
-    
+
     // Gift suggestions: event members can read, edit, delete
     match /giftSuggestions/{suggestionId} {
       allow read: if request.auth != null;
@@ -92,4 +92,3 @@ After completing the above steps, build and run your app. The Firebase SDK will 
 - **"FirebaseApp.configure() failed"**: Make sure `GoogleService-Info.plist` is added to your project and included in your app target
 - **Authentication errors**: Verify Email/Password authentication is enabled in Firebase Console
 - **Firestore permission errors**: Check your security rules and ensure you're authenticated
-
