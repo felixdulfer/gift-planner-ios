@@ -1,0 +1,33 @@
+{
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/*.xcuserstate": true,
+    "**/*.xcuserdatad": true,
+    "**/xcuserdata/": true,
+    "**/project.xcworkspace/xcuserdata/": true,
+    "**/*.xcworkspace/xcuserdata/": true,
+    "**/xcshareddata/swiftpm/Package.resolved": false
+  },
+  "search.exclude": {
+    "**/.DS_Store": true,
+    "**/*.xcuserstate": true,
+    "**/*.xcuserdatad": true,
+    "**/xcuserdata/": true,
+    "**/project.xcworkspace/xcuserdata/": true,
+    "**/*.xcworkspace/xcuserdata/": true,
+    "**/xcshareddata/swiftpm/Package.resolved": false,
+    "**/DerivedData/": true,
+    "**/build/": true
+  },
+  "files.watcherExclude": {
+    "**/.DS_Store": true,
+    "**/*.xcuserstate": true,
+    "**/*.xcuserdatad": true,
+    "**/xcuserdata/": true,
+    "**/project.xcworkspace/xcuserdata/": true,
+    "**/*.xcworkspace/xcuserdata/": true,
+    "**/DerivedData/": true,
+    "**/build/": true
+  }
+}
+
