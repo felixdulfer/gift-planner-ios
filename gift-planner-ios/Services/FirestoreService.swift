@@ -125,7 +125,7 @@ class FirestoreService {
         
         print("FirestoreService: Found \(snapshot.documents.count) documents")
         
-        let suggestions = try snapshot.documents.compactMap { doc -> GiftSuggestion? in
+        let suggestions = snapshot.documents.compactMap { doc -> GiftSuggestion? in
             do {
                 let suggestion = try doc.data(as: GiftSuggestion.self)
                 print("FirestoreService: Successfully decoded suggestion: \(suggestion.title)")

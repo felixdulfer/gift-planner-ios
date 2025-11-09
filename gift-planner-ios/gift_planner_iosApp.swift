@@ -6,6 +6,7 @@ struct gift_planner_iosApp: App {
     @StateObject private var authService = AuthService()
     
     init() {
+        // Configure Firebase synchronously - this is fast and reads local config
         FirebaseApp.configure()
         
         // Suppress keyboard haptic feedback errors in simulator

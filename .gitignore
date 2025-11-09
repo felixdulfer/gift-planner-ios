@@ -91,6 +91,9 @@ fastlane/test_output
 
 iOSInjectionProject/
 
+# Firebase configuration (contains API keys)
+**/GoogleService-Info.plist
+
 # macOS
 .DS_Store
 .AppleDouble

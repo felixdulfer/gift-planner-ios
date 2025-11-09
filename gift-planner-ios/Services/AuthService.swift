@@ -9,9 +9,20 @@ class AuthService: ObservableObject {
     private var handle: AuthStateDidChangeListenerHandle?
     
     init() {
-        handle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
-            self?.currentUser = user
-            self?.isAuthenticated = user != nil
+        // Set initial state from cached user (if available) immediately
+        // This allows UI to render immediately without waiting for network auth check
+        if let user = Auth.auth().currentUser {
+            self.currentUser = user
+            self.isAuthenticated = true
+        }
+        
+        // Add auth state listener - this is non-blocking and will update
+        // state asynchronously when network check completes
+        self.handle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
+            DispatchQueue.main.async {
+                self?.currentUser = user
+                self?.isAuthenticated = user != nil
+            }
         }
     }
     
