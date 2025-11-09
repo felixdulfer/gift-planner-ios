@@ -96,7 +96,16 @@ struct WishlistDetailView: View {
             }
         }
         .sheet(isPresented: $showingAddGift) {
-            AddGiftSuggestionView(wishlistId: currentWishlist.id ?? "", isPresented: $showingAddGift)
+            AddGiftSuggestionView(
+                wishlistId: currentWishlist.id ?? "",
+                isPresented: $showingAddGift,
+                onGiftAdded: { giftTitle in
+                    toastMessage = "Gift \"\(giftTitle)\" added"
+                    Task {
+                        await loadGiftSuggestions()
+                    }
+                }
+            )
         }
         .onChange(of: showingAddGift) { oldValue, newValue in
             // Refresh when sheet is dismissed

@@ -9,6 +9,13 @@ struct AddGiftSuggestionView: View {
     @State private var errorMessage = ""
     @State private var isLoading = false
     @Binding var isPresented: Bool
+    var onGiftAdded: ((String) -> Void)?
+    
+    init(wishlistId: String, isPresented: Binding<Bool>, onGiftAdded: ((String) -> Void)? = nil) {
+        self.wishlistId = wishlistId
+        self._isPresented = isPresented
+        self.onGiftAdded = onGiftAdded
+    }
     
     var body: some View {
         NavigationView {
@@ -81,7 +88,12 @@ struct AddGiftSuggestionView: View {
                 _ = try await FirestoreService.shared.createGiftSuggestion(suggestion)
                 await MainActor.run {
                     isLoading = false
+                    let createdTitle = title
                     isPresented = false
+                    // Call callback after dismissing sheet
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        onGiftAdded?(createdTitle)
+                    }
                 }
             } catch {
                 await MainActor.run {
