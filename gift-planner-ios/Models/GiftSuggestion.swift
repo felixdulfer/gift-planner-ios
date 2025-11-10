@@ -12,8 +12,21 @@ struct GiftSuggestion: Identifiable, Codable {
     var isFavorited: Bool
     var isPurchased: Bool
     var purchasedBy: String? // User ID who purchased it
+    var sortOrder: Int = 0
     
-    init(id: String? = nil, wishlistId: String, title: String, description: String? = nil, link: String? = nil, suggestedBy: String, createdAt: Date = Date(), isFavorited: Bool = false, isPurchased: Bool = false, purchasedBy: String? = nil) {
+    init(
+        id: String? = nil,
+        wishlistId: String,
+        title: String,
+        description: String? = nil,
+        link: String? = nil,
+        suggestedBy: String,
+        createdAt: Date = Date(),
+        isFavorited: Bool = false,
+        isPurchased: Bool = false,
+        purchasedBy: String? = nil,
+        sortOrder: Int = 0
+    ) {
         self.id = id
         self.wishlistId = wishlistId
         self.title = title
@@ -24,6 +37,7 @@ struct GiftSuggestion: Identifiable, Codable {
         self.isFavorited = isFavorited
         self.isPurchased = isPurchased
         self.purchasedBy = purchasedBy
+        self.sortOrder = sortOrder
     }
 }
 

@@ -13,6 +13,7 @@ struct WishlistDetailView: View {
     @State private var selectedSuggestion: GiftSuggestion?
     @State private var showingEditSuggestion = false
     @State private var toastMessage: String?
+    @State private var editMode: EditMode = .inactive
     
     init(wishlist: Wishlist, event: Event) {
         self.wishlist = wishlist
@@ -23,6 +24,10 @@ struct WishlistDetailView: View {
     var canEdit: Bool {
         guard let userId = authService.userId else { return false }
         return event.memberIds.contains(userId)
+    }
+    
+    private var isReorderMode: Bool {
+        editMode == .active
     }
     
     var body: some View {
@@ -49,6 +54,7 @@ struct WishlistDetailView: View {
                         GiftSuggestionRow(
                             suggestion: suggestion,
                             canEdit: canEdit,
+                            isReordering: isReorderMode,
                             onToggleFavorite: { toggleFavorite(suggestion) },
                             onTogglePurchased: { togglePurchased(suggestion) },
                             onTap: {
@@ -57,7 +63,9 @@ struct WishlistDetailView: View {
                             }
                         )
                     }
+                    .onMove(perform: moveSuggestions)
                     .onDelete(perform: deleteSuggestions)
+                    .moveDisabled(!isReorderMode)
                 }
             }
             
@@ -77,10 +85,22 @@ struct WishlistDetailView: View {
                 }
             }
         }
+        .environment(\.editMode, $editMode)
         .navigationTitle("Wishlist")
         .toolbar {
             if canEdit {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button(action: toggleReorderMode) {
+                        if isReorderMode {
+                            Text("Done")
+                                .fontWeight(.semibold)
+                        } else {
+                            Image(systemName: "arrow.up.arrow.down")
+                        }
+                    }
+                    .disabled(giftSuggestions.count < 2 && !isReorderMode)
+                    .accessibilityLabel(isReorderMode ? "Finish reordering" : "Reorder gift suggestions")
+                    
                     Menu {
                         Button(action: { showingEditWishlist = true }) {
                             Label("Edit Wishlist", systemImage: "pencil")
@@ -192,7 +212,7 @@ struct WishlistDetailView: View {
             let loadedSuggestions = try await FirestoreService.shared.getGiftSuggestions(for: wishlistId)
             print("Loaded \(loadedSuggestions.count) gift suggestions")
             await MainActor.run {
-                self.giftSuggestions = loadedSuggestions
+                self.giftSuggestions = orderedGiftSuggestions(from: loadedSuggestions)
                 self.isLoading = false
             }
         } catch {
@@ -235,6 +255,11 @@ struct WishlistDetailView: View {
                 }
             }
         }
+    }
+    
+    private func moveSuggestions(from source: IndexSet, to destination: Int) {
+        giftSuggestions.move(fromOffsets: source, toOffset: destination)
+        persistSuggestionOrder()
     }
     
     private func toggleFavorite(_ suggestion: GiftSuggestion) {
@@ -311,11 +336,58 @@ struct WishlistDetailView: View {
         
         giftSuggestions[index] = updatedSuggestion
     }
+    
+    private func toggleReorderMode() {
+        withAnimation {
+            editMode = isReorderMode ? .inactive : .active
+        }
+        HapticFeedbackHelper.selection()
+    }
+    
+    private func orderedGiftSuggestions(from suggestions: [GiftSuggestion]) -> [GiftSuggestion] {
+        guard !suggestions.isEmpty else { return [] }
+        let uniqueOrders = Set(suggestions.map { $0.sortOrder })
+        let shouldUseCustomOrder = uniqueOrders.count > 1 || uniqueOrders.first != 0
+        if shouldUseCustomOrder {
+            return suggestions.sorted { lhs, rhs in
+                if lhs.sortOrder == rhs.sortOrder {
+                    return lhs.createdAt > rhs.createdAt
+                }
+                return lhs.sortOrder < rhs.sortOrder
+            }
+        } else {
+            return suggestions.sorted { $0.createdAt > $1.createdAt }
+        }
+    }
+    
+    private func persistSuggestionOrder() {
+        guard let wishlistId = currentWishlist.id else { return }
+        let updatedSuggestions = giftSuggestions.enumerated().map { index, suggestion -> GiftSuggestion in
+            var mutable = suggestion
+            mutable.sortOrder = index
+            return mutable
+        }
+        giftSuggestions = updatedSuggestions
+        Task {
+            do {
+                try await FirestoreService.shared.updateGiftSuggestionOrder(
+                    wishlistId: wishlistId,
+                    suggestions: updatedSuggestions
+                )
+            } catch {
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                }
+                await loadGiftSuggestions()
+            }
+        }
+    }
 }
 
 struct GiftSuggestionRow: View {
     let suggestion: GiftSuggestion
     let canEdit: Bool
+    let isReordering: Bool
     let onToggleFavorite: () -> Void
     let onTogglePurchased: () -> Void
     let onTap: () -> Void
@@ -373,7 +445,7 @@ struct GiftSuggestionRow: View {
                 }
             }
             
-            if canEdit {
+            if canEdit && !isReordering {
                 HStack(spacing: 16) {
                     Button(action: onToggleFavorite) {
                         HStack(spacing: 4) {
@@ -406,6 +478,7 @@ struct GiftSuggestionRow: View {
         )
         .contentShape(Rectangle())
         .onTapGesture {
+            guard !isReordering else { return }
             onTap()
         }
     }

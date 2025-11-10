@@ -168,5 +168,17 @@ class FirestoreService {
             "purchasedBy": FieldValue.delete()
         ])
     }
+    
+    func updateGiftSuggestionOrder(wishlistId: String, suggestions: [GiftSuggestion]) async throws {
+        let batch = db.batch()
+        for (index, suggestion) in suggestions.enumerated() {
+            guard let id = suggestion.id else { continue }
+            let ref = db.collection("giftSuggestions").document(id)
+            batch.updateData([
+                "sortOrder": index
+            ], forDocument: ref)
+        }
+        try await batch.commit()
+    }
 }
 
